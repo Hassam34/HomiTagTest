@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HomiTagTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Generes" EntityType="HomiTagTestModel.Genere" />
+    <EntitySet Name="Movies" EntityType="HomiTagTestModel.Movy" />
+    <AssociationSet Name="FK_Movies_GeneresId" Association="HomiTagTestModel.FK_Movies_GeneresId">
+      <End Role="Genere" EntitySet="Generes" />
+      <End Role="Movy" EntitySet="Movies" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Genere">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="AddedBy" Type="Int32" Nullable="false" />
+    <Property Name="Statsus" Type="Boolean" Nullable="false" />
+    <Property Name="CreationTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Movies" Relationship="HomiTagTestModel.FK_Movies_GeneresId" FromRole="Genere" ToRole="Movy" />
+  </EntityType>
+  <EntityType Name="Movy">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="AddedBy" Type="Int32" Nullable="false" />
+    <Property Name="GeneresId" Type="Int32" Nullable="false" />
+    <Property Name="Statsus" Type="Boolean" Nullable="false" />
+    <Property Name="CreationTimeStamp" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ReleaseDate" Type="DateTime" Precision="0" />
+    <Property Name="Duration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Rating" Type="Double" />
+    <NavigationProperty Name="Genere" Relationship="HomiTagTestModel.FK_Movies_GeneresId" FromRole="Movy" ToRole="Genere" />
+  </EntityType>
+  <Association Name="FK_Movies_GeneresId">
+    <End Type="HomiTagTestModel.Genere" Role="Genere" Multiplicity="1" />
+    <End Type="HomiTagTestModel.Movy" Role="Movy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genere">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Movy">
+        <PropertyRef Name="GeneresId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
